@@ -1,0 +1,13 @@
+{
+	"name": "Random Daily Hints",
+	"main": "index.html",
+	"window": {
+		"width": 520,
+		"height": 500,
+		"icon": "icon.png",
+		"frame": false,
+		"transparent": true,
+		"show_in_taskbar": false
+	},  
+	"chromium-args":"--disable-gpu --force-cpu-draw"
+}

@@ -1,0 +1,49 @@
+body {
+	-webkit-app-region: drag
+}
+.main {
+	width: 453px;
+	height: 90%;
+	max-height: 500px;
+	border: 1px solid #fff;
+	border-radius: 8px;
+	box-shadow: 0px 0px 1px #000, 0px 0px 12px rgba(100, 100, 100, 1);
+	padding: 25px 25px 10px 25px;
+	background-color: rgba(255, 255, 255, 0.5);
+	position: relative;
+}
+.main * {
+	color: white;
+	text-shadow: 
+	1px 1px 0px #000, 
+	1px -1px 0px #000, 
+	-1px -1px 0px #000, 
+	-1px 1px 0px #000, 	
+	2px 2px  2px rgba(150, 150, 150, 1);
+	opacity: 1;
+}
+.content {
+	-webkit-app-region: no-drag;
+}
+.close-holder {
+	height: 16px;
+	padding-top: 13px;
+	-webkit-app-region: no-drag;
+}
+.close-holder .icon {
+	position: absolute;
+	right: 10px;
+	-webkit-app-region: no-drag;
+}
+
+.hljs {
+	border-radius: 8px;
+	border: 1px solid #000;
+	text-shadow: none;
+	color: inherit;
+}
+
+.hljs * {
+	text-shadow: none;
+	color: inherit;
+}

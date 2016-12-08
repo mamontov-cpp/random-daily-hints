@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Random daily hints</title>
+	<link href="style.css" type="text/css"  rel="stylesheet" />
+	<link href="highlightjs/styles/vs.css" type="text/css"  rel="stylesheet" />
+  </head>
+  <body>
+  <!-- <div>Icons made by <a href="http://www.flaticon.com/authors/gregor-cresnar" title="Gregor Cresnar">Gregor Cresnar</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+	<script type="text/javascript" src="jquery-3.1.1.min.js"></script>
+	<script type="text/javascript" src="highlightjs/highlight.pack.js"></script>
+	<!-- MathJax is just too large to bundle it -->
+	<script type="text/x-mathjax-config">
+	MathJax.Hub.Config({
+	  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+	});
+	</script>
+	<script type="text/javascript" async
+			src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+	<script type="text/javascript">
+		hljs.initHighlightingOnLoad();
+		var gui = require('nw.gui');
+		var fs = require('fs');
+		var tray = new gui.Tray({ title: 'Random Daily Hints', icon: 'icon.png' });
+		var me = gui.Window.get();
+		var hidden = false;
+		tray.on('click', function() {
+			if (hidden) {
+				hidden = false;
+				me.show();
+			} else {
+				hidden = true;
+				me.hide();
+			}
+		});
+		// http://stackoverflow.com/questions/2727167/getting-all-filenames-in-a-directory-with-node-js
+		function getFiles (dir, files_){
+			files_ = files_ || [];
+			var files = fs.readdirSync(dir);
+			for (var i in files){
+				var name = dir + '/' + files[i];
+				if (fs.statSync(name).isDirectory()){
+					getFiles(name, files_);
+				} else {
+					files_.push(name);
+				}
+			}
+			return files_;
+		}
+		$(document).ready(function() {
+			var settingsFileName = 'screenpos.json';			
+			
+			// Try load old position of window from a settings file
+			if (fs.existsSync(settingsFileName)) {
+				fs.readFile(settingsFileName, 'utf8', function(err, data) {
+					if (err)
+						return;
+					try {
+						var pos = JSON.parse(data);
+						if (typeof pos == "object" && pos != null) {
+							if (typeof pos["x"] == "number" && typeof pos["y"] == "number") {
+								me.moveTo(pos["x"], pos["y"]);
+							}
+						}
+					} catch(e) {
+						console.log("Failed to load file: " + e.message);
+					}
+				});
+			}
+			
+			// Load hint
+			try {
+				var files = getFiles("hints", []);
+				if (files.length) {
+					files.sort();
+					// [1,10,2, 2].sort(function(a,b) { return (a < b) ? -1 : 1; return 0; })
+					var position = parseInt(Math.random() * files.length);
+					var fileName = files[position];
+					fs.readFile(fileName, 'utf8', function(err, data) {
+						if (err)
+							return;
+						$("#content").html(data);
+						$("#content pre code").each(function(i, block) { hljs.highlightBlock(block); });
+					});
+				}
+			} catch(e) {
+				console.log("Failed to load files: " + e.message);
+			}
+			
+			// On close write current position of window to settings
+			me.on('close', function() {
+				fs.writeFileSync(settingsFileName, JSON.stringify({'x' : me.x, 'y' : me.y}));
+			});
+			
+			// On click on close button, program should close window
+			$("#close").click(function() {
+				gui.App.closeAllWindows();
+				me.close(true);
+			});
+		});
+	</script>
+	<div id="main" class="main">
+		<div class="content" id="content">
+			<h1>No daily hints in "hint/" folder. Please, populate it with data</h1>
+		</div>
+		<div class="close-holder">
+			<img class="icon" src="close.png" width="16" height="16" id="close">
+		</div>
+	</div>	
+  </body>
+</html>
