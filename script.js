@@ -208,9 +208,9 @@ function loadAndDisplayHint() {
 			if (files.length == 0) {
 				files = [].concat(originalFiles);
 				if (alreadypicked.length < repeatLimit) {
-					alreadypicked = alreadypicked.slice(1, alreadypicked.length - 1);
+					alreadypicked = alreadypicked.slice(1);
 				} else {
-					alreadypicked = alreadypicked.slice(alreadypicked.length - repeatLimit, repeatLimit);
+					alreadypicked = alreadypicked.slice(alreadypicked.length - repeatLimit);
 				}
 				files = filterOutAlreadyPickedFiles(files, alreadypicked);
 			}
