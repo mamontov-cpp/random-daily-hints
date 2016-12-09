@@ -1,5 +1,6 @@
 {
 	"name": "Random Daily Hints",
+	"version" : "1.0",
 	"main": "index.html",
 	"window": {
 		"width": 520,

@@ -2,14 +2,17 @@ var gui = require('nw.gui');
 var fs = require('fs');
 var tray = null;
 
+var path = require('path');
+var appPath = path.dirname(process.execPath) + path.sep;
+
 // Current window
 var me = gui.Window.get();
 // Name of file with current position of window, which will be stored before sessions
-var settingsFileName = 'screenpos.json';
+var settingsFileName = appPath + 'screenpos.json';
 // A path to folder, where hints are stored
-var hintFolderName = 'hints';
+var hintFolderName = appPath + 'hints';
 // A name of file, where picked hints should be stored
-var pickedHintsFileName = 'pickedhints.json';
+var pickedHintsFileName = appPath + 'pickedhints.json';
 // Amount of days, after which hints could repeat
 var repeatLimit = 30;
 
