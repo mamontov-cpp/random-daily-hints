@@ -17,6 +17,7 @@ var pickedHintsFileName = appPath + 'pickedhints.json';
 var repeatLimit = 30;
 
 
+
 // Init syntax highlighting on load
 hljs.initHighlightingOnLoad();
 
